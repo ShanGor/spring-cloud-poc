@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+          handshake-timeout-millis: 10000
+          close-notify-flush-timeout-millis: 3000
+          close-notify-read-timeout-millis: 0
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+            - GET
+            - POST
+      routes:
+      - id: rest-app
+        uri: lb://rest-app
+        predicates:
+        - Path=/rest/**
+        filters:
+        - RewritePath=/rest/(?<path>.*), /$\{path}
+        - name: Retry
+          args:
+            retries: 3
+            statuses: BAD_GATEWAY, INTERNAL_SERVER_ERROR, NOT_FOUND
+
+
+server:
+  port: 8111
+
+
+eureka:
+  instance:
+    preferIpAddress: false
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://hello:world@peer1:8761/eureka, http://hello:world@peer2:8762/eureka
+
+management:
+  endpoints:
+    shutdown:
+      enabled: true
+    web:
+      exposure:
+        include: info, health, routes, filters, gateway
+  security:
+    enabled: false
+    endpoints:
+      web:
+        exposure:
+          include: info, health, routes, gateway
+
+
+
+  endpoint:
+    gateway:
+      enabled: true
+
+# hystrix的超时时间必须大于ribbon的超时时间
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+
+

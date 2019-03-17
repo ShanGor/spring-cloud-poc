@@ -1,0 +1,70 @@
+# Shared configurations
+spring:
+  profiles: single, peer1, peer2
+  application:
+    name: eureka-server
+
+  security:
+    user:
+      name: hello
+      password: world
+logging:
+  level:
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF
+
+# Single node, for testing
+---
+spring:
+  profiles: single
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+
+# For High Availability, peer1
+---
+spring:
+  profiles: peer1
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    #registerWithEureka: false
+    #fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer2:8762/eureka/
+  server:
+    renewalPercentThreshold: 1
+  #  waitTimeInMsWhenSyncEmpty: 0
+
+
+# For High Availability, peer1
+---
+spring:
+  profiles: peer2
+
+server:
+  port: 8762
+
+eureka:
+  instance:
+    hostname: peer2
+  server:
+    renewalPercentThreshold: 1
+  client:
+    #registerWithEureka: false
+    #fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer1:8761/eureka/

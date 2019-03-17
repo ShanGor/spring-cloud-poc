@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: zuul-server
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+#zuul:
+#  routes:
+#    api1:
+#      path: /api/**
+#      url: http://localhost:8080/
+ribbon:
+  eureka:
+    enabled: true
+  # 请求连接的超时时间
+  connectTimeout: 2000
+  # 请求处理的超时时间, milliseconds
+  readTimeout: 30000
+  # 对当前实例的重试次数
+  maxAutoRetries: 0
+  # 切换实例的重试次数
+  maxAutoRetriesNextServer: 3
+  # 对所有操作请求都进行重试
+  okToRetryOnAllOperations: true
+
+server:
+  port: 8111
+
+
+eureka:
+  instance:
+    preferIpAddress: false
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://hello:world@peer1:8761/eureka, http://hello:world@peer2:8762/eureka
+
+management:
+  endpoints:
+    shutdown:
+      enabled: true
+    web:
+      exposure:
+        include: info, health, routes, filters
+
+  security:
+    enabled: false
+    endpoints:
+      web:
+        exposure:
+          include: info, health, routes
+
+
+# hystrix的超时时间必须大于ribbon的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+# Disable the retry
+zuul:
+  retryable: true
+
+
+
