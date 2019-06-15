@@ -1,0 +1,17 @@
+#spring:
+#  application:
+#    name: rest-app
+#app:
+#  usr: hello
+#  pwd: world
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${app.usr}:${app.pwd}@peer1:8761/eureka/, http://${app.usr}:${app.pwd}@peer2:8762/eureka/
+#  instance:
+#    hostname: localhost
+#    preferIpAddress: false
+
+server:
+  port: 8080

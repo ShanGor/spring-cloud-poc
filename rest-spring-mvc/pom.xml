@@ -8,32 +8,33 @@
 		<version>2.1.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>tech.comfortheart.gateway</groupId>
-	<artifactId>gateway-zuul-poc</artifactId>
+	<groupId>tech.comfortheart.poc</groupId>
+	<artifactId>rest-spring-mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gateway-zuul-poc</name>
+	<name>rest-spring-mvc</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud-services.version>2.1.0.RELEASE</spring-cloud-services.version>
 		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+		<groovy.version>2.5.6</groovy.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-netflix-hystrix</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -43,23 +44,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
-	<dependencyManagement>
+	<!--dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -76,25 +74,13 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement-->
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<requiresUnpack>
-						<dependency>
-							<groupId>com.netflix.eureka</groupId>
-							<artifactId>eureka-core</artifactId>
-						</dependency>
-						<dependency>
-							<groupId>com.netflix.eureka</groupId>
-							<artifactId>eureka-client</artifactId>
-						</dependency>
-					</requiresUnpack>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
