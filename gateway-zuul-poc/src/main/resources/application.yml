@@ -23,6 +23,7 @@ ribbon:
   maxAutoRetriesNextServer: 3
   # 对所有操作请求都进行重试
   okToRetryOnAllOperations: true
+  retryableStatusCodes: 404,500
 
 server:
   port: 8111
