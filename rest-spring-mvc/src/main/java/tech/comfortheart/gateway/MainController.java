@@ -3,6 +3,8 @@ package tech.comfortheart.gateway;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64OutputStream;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,15 @@ public class MainController {
     @GetMapping("/download-four")
     public void downloadFileAsBase64Four(HttpServletResponse response) throws IOException {
         Files.copy(Paths.get(path), response.getOutputStream());
+    }
+
+    /**
+     * Zero-copy mechanism.
+     * @return
+     */
+    @GetMapping("/download-six")
+    public Resource downloadSix() {
+        return new FileSystemResource(path);
     }
 
 
