@@ -1,12 +1,18 @@
 spring:
   application:
     name: rest-app
+
+  http:
+    converters:
+      preferred-json-mapper: gson
 app:
   usr: hello
   pwd: world
 
 eureka:
   client:
+    healthcheck:
+      enabled:  true
     serviceUrl:
       defaultZone: http://${app.usr}:${app.pwd}@peer1:8761/eureka/, http://${app.usr}:${app.pwd}@peer2:8762/eureka/
   instance:

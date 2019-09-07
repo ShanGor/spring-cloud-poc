@@ -1,5 +1,7 @@
 package tech.comfortheart.gateway;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -10,11 +12,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static tech.comfortheart.gateway.Constant.REQUEST_ID;
 
 
 @RestController
 public class MainController {
+
+    Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Value("${spring.application.name}")
     private String appName;
@@ -34,6 +40,18 @@ public class MainController {
                 return "Hello world at " + appName + ":" + port;
             }
         });
+    }
+
+    @GetMapping("/test-log")
+    public String testLog() {
+        long start = System.nanoTime();
+        AtomicInteger hey = new AtomicInteger(0);
+        for(int i=0; i<10000; i++) {
+//            logger.info("the " + i + " times");
+            hey.incrementAndGet();
+        }
+        long end = System.nanoTime();
+        return "Total time: " + (end - start)/1000_000.0 + " milliseconds!";
     }
 
     @GetMapping("/static")
